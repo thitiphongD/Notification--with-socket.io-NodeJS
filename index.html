@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket IO Chat App</title>
+</head>
+<script
+      src="https://cdn.socket.io/4.5.0/socket.io.min.js"
+      integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k"
+      crossorigin="anonymous"
+></script>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+    #message-bar {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #notification {
+        color: #fff;
+    }
+    .container {
+        height: 80vh;
+        width: 100px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    textarea {
+        font-size: 16px;
+        margin-bottom: 30px;
+        padding: 15px;
+        outline: none;
+    }
+    button {
+        width: 200px;
+        padding: 15px;
+        cursor: pointer;
+        background-color: #2c3639;
+        outline: none;
+        border: none;
+        color: #dcd7c9;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #3f4e4f;
+    }
+</style>
+<body>
+    <div id="message-bar">
+        <p id="notification">...</p>
+    </div>
+    <form class="container">
+        <h2>Send message with Socket.io</h2>
+        <textarea
+            id='message'
+            row='5'
+            width="'100%"
+            name="'message"
+            placeholder="'Enter your message..."
+        ></textarea>
+        <button>SEND</button>
+    </form>
+</body>
+<script>
+    const notify = document.querySelector('#notification');
+    const message = document.querySelector('#message');
+    const button = document.querySelector('button');
+    const messageBar = document.querySelector('#message-bar');
+
+    function printMessage(e) {
+        e.preventDefault();
+        console.log(message.value);
+    }
+    button.addEventListener('click', printMessage);
+
+    const socket = io();
+    socket.on('response', function(data) {
+        notify.textContent = data;
+        messageBar.style.backgroundColor = '#3F4E4F';
+        messageBar.style.height = '20vh';
+    })
+</script>
+</html>
